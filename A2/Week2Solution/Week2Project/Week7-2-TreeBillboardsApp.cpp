@@ -1331,7 +1331,7 @@ void TreeBillboardsApp::BuildRenderWorld()
 {
 	auto wavesRitem = std::make_unique<RenderItem>();
 	wavesRitem->World = MathHelper::Identity4x4();
-	XMStoreFloat4x4(&wavesRitem->TexTransform, XMMatrixScaling(5.0f, 5.0f, 1.0f));
+	XMStoreFloat4x4(&wavesRitem->World, XMMatrixScaling(5.0f, 5.0f, 1.0f)*XMMatrixTranslation(0.0f, -5.0f, 0.0f));
 	wavesRitem->ObjCBIndex = 0;
 	wavesRitem->Mat = mMaterials["water"].get();
 	wavesRitem->Geo = mGeometries["waterGeo"].get();
