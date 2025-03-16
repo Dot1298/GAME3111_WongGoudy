@@ -251,6 +251,7 @@ bool TreeBillboardsApp::Initialize()
 	BuildRenderItems("Box", "bricks", 2.0f, 6.0f, 12.0f, 8.0f, 1.0f, 0.0f);
 	BuildRenderItems("Box", "bricks", 12.0f, 6.0f, 2.0f, 0.0f, 1.0f, 8.0f);
 	BuildRenderItems("Box", "bricks", 12.0f, 6.0f, 2.0f, 0.0f, 1.0f, -8.0f);
+	BuildRenderItems("Box", "bricks", 2.0f, 6.0f, 12.0f, -8.0f, 1.0f, 0.0f);
 
 	////Towers
 	BuildRenderItems("Cylinder", "grass", 2.0f, 8.0f, 2.0f, -8.0f, 2.0f, 8.0f);
