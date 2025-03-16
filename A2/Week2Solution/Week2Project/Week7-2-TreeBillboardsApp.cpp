@@ -148,6 +148,8 @@ private:
 
 	std::unique_ptr<Waves> mWaves;
 
+	std::vector<RenderItem*> mOpaqueRitems;
+
 	PassConstants mMainPassCB;
 
 	XMFLOAT3 mEyePos = { 0.0f, 0.0f, 0.0f };
@@ -230,18 +232,65 @@ bool TreeBillboardsApp::Initialize()
 	BuildShapeGeometry("Grid2", geoGen.CreateGrid(1.0f, 5.0f, 2, 2));
 	BuildShapeGeometry("Grid3", geoGen.CreateGrid(1.0f, 5.0f, 2, 2));
 
-	//BuildShapeGeometry("Pyramid", geoGen.CreatePyramid(1.0f, 1.0f, 1.0f, 0));
-	//BuildShapeGeometry("Cone2", geoGen.CreateCone(1.0f, 1.0f, 10, 2));
-	//BuildShapeGeometry("Wedge", geoGen.CreateWedge(1.0f, 1.0f, 1.0f, 0));
-	//BuildShapeGeometry("TriangularPrism", geoGen.CreateTriangularPrism(1.0f, 1.0f, 1.0f, 0));
-	//BuildShapeGeometry("Diamond", geoGen.CreateDiamond(1.0f));
+	BuildShapeGeometry("Pyramid", geoGen.CreatePyramid(1.0f, 1.0f, 1.0f, 0));
+	BuildShapeGeometry("Cone2", geoGen.CreateCone(1.0f, 1.0f, 10, 2));
+	BuildShapeGeometry("Wedge", geoGen.CreateWedge(1.0f, 1.0f, 1.0f, 0));
+	BuildShapeGeometry("TriangularPrism", geoGen.CreateTriangularPrism(1.0f, 1.0f, 1.0f, 0));
+	BuildShapeGeometry("Diamond", geoGen.CreateDiamond(1.0f));
 
 	BuildMaterials();
+	//Decoration
+	BuildRenderItems("Diamond", "ice", 2.0f, 2.0f, 2.0f, 0.0f, 10.0f, 0.0f);
+
+	//Chains for bridge
+	BuildRenderItems("Wedge", "woodCrate", 6.0f, 5.0f, 0.5f, 11.0f, 0.5f, -3.0f);
+	BuildRenderItems("Wedge", "woodCrate", 6.0f, 5.0f, 0.5f, 11.0f, 0.5f, 3.0f);
+
 	//Walls
 	BuildRenderItems("Box", "bricks", 2.0f, 6.0f, 12.0f, -8.0f, 1.0f, 0.0f);
 	BuildRenderItems("Box", "bricks", 2.0f, 6.0f, 12.0f, 8.0f, 1.0f, 0.0f);
 	BuildRenderItems("Box", "bricks", 12.0f, 6.0f, 2.0f, 0.0f, 1.0f, 8.0f);
 	BuildRenderItems("Box", "bricks", 12.0f, 6.0f, 2.0f, 0.0f, 1.0f, -8.0f);
+
+	////Towers
+	BuildRenderItems("Cylinder", "grass", 2.0f, 8.0f, 2.0f, -8.0f, 2.0f, 8.0f);
+	BuildRenderItems("Cylinder", "grass", 2.0f, 8.0f, 2.0f, 8.0f, 2.0f, 8.0f);
+	BuildRenderItems("Cylinder", "grass", 2.0f, 8.0f, 2.0f, -8.0f, 2.0f, -8.0f);
+	BuildRenderItems("Cylinder", "grass", 2.0f, 8.0f, 2.0f, 8.0f, 2.0f, -8.0f);
+
+	//Tower roofs
+	BuildRenderItems("Cone2", "woodCrate", 2.0f, 8.0f, 2.0f, -8.0f, 8.0f, 8.0f);
+	BuildRenderItems("Cone2", "woodCrate", 2.0f, 8.0f, 2.0f, 8.0f, 8.0f, 8.0f);
+	BuildRenderItems("Cone2", "woodCrate", 2.0f, 8.0f, 2.0f, -8.0f, 8.0f, -8.0f);
+	BuildRenderItems("Cone2", "woodCrate", 2.0f, 8.0f, 2.0f, 8.0f, 8.0f, -8.0f);
+
+	////Tower balls
+	BuildRenderItems("Sphere", "ice", 1.0f, 1.0f, 1.0f, -8.0f, 12.0f, 8.0f);
+	BuildRenderItems("Sphere", "ice", 1.0f, 1.0f, 1.0f, 8.0f, 12.0f, 8.0f);
+	BuildRenderItems("Sphere", "ice", 1.0f, 1.0f, 1.0f, -8.0f, 12.0f, -8.0f);
+	BuildRenderItems("Sphere", "ice", 1.0f, 1.0f, 1.0f, 8.0f, 12.0f, -8.0f);
+
+	////Gate and door
+	BuildRenderItems("Box2", "woodCrate", 6.0f, 0.5f, 6.0f, 11.0f, -2.0f, 0.0f);
+	BuildRenderItems("Box3", "woodCrate", 0.5f, 6.0f, 6.0f, 9.0f, 1.0f, 0.0f);
+
+	////Decoration on walls
+	BuildRenderItems("Pyramid", "ice", 1.0f, 1.0f, 1.0f, -8.0f, 4.0f, 0.0f);
+	BuildRenderItems("Pyramid", "ice", 1.0f, 1.0f, 1.0f, -8.0f, 4.0f, 4.0f);
+	BuildRenderItems("Pyramid", "ice", 1.0f, 1.0f, 1.0f, -8.0f, 4.0f, -4.0f);
+
+	BuildRenderItems("Pyramid", "ice", 1.0f, 1.0f, 1.0f, 0.0f, 4.0f, 8.0f);
+	BuildRenderItems("Pyramid", "ice", 1.0f, 1.0f, 1.0f, 4.0f, 4.0f, 8.0f);
+	BuildRenderItems("Pyramid", "ice", 1.0f, 1.0f, 1.0f, -4.0f, 4.0f, 8.0f);
+
+	BuildRenderItems("Pyramid", "ice", 1.0f, 1.0f, 1.0f, 4.0f, 4.0f, -8.0f);
+	BuildRenderItems("Pyramid", "ice", 1.0f, 1.0f, 1.0f, 0.0f, 4.0f, -8.0f);
+	BuildRenderItems("Pyramid", "ice", 1.0f, 1.0f, 1.0f, -4.0f, 4.0f, -8.0f);
+
+	//Moat, floor and grass
+	BuildRenderItems("Grid", "water", 25.0f, 20.0f, 5.0f, 0.0f, -2.0f, 0.0f);
+	BuildRenderItems("Grid2", "grass", 40.0f, 20.0f, 10.0f, 0.0f, -2.8f, 0.0f);
+	BuildRenderItems("Grid3", "woodCrate", 15.0f, 20.0f, 4.0f, 0.0f, -1.8f, 0.0f);
 
 	BuildRenderWorld();
 	BuildFrameResources();
@@ -337,6 +386,8 @@ void TreeBillboardsApp::Draw(const GameTimer& gt)
 
 	mCommandList->SetPipelineState(mPSOs["transparent"].Get());
 	DrawRenderItems(mCommandList.Get(), mRitemLayer[(int)RenderLayer::Transparent]);
+
+	DrawRenderItems(mCommandList.Get(), mOpaqueRitems);
 
 	// Indicate a state transition on the resource usage.
 	mCommandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(CurrentBackBuffer(),
@@ -1195,32 +1246,32 @@ void TreeBillboardsApp::BuildMaterials()
 	// tools we need (transparency, environment reflection), so we fake it for now.
 	auto water = std::make_unique<Material>();
 	water->Name = "water";
-	water->MatCBIndex = 1;
-	water->DiffuseSrvHeapIndex = 1;
+	water->MatCBIndex = 4;
+	water->DiffuseSrvHeapIndex = 4;
 	water->DiffuseAlbedo = XMFLOAT4(1.0f, 1.0f, 1.0f, 0.5f);
 	water->FresnelR0 = XMFLOAT3(0.1f, 0.1f, 0.1f);
 	water->Roughness = 0.0f;
 
 	auto wirefence = std::make_unique<Material>();
 	wirefence->Name = "wirefence";
-	wirefence->MatCBIndex = 2;
-	wirefence->DiffuseSrvHeapIndex = 2;
+	wirefence->MatCBIndex = 5;
+	wirefence->DiffuseSrvHeapIndex = 5;
 	wirefence->DiffuseAlbedo = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	wirefence->FresnelR0 = XMFLOAT3(0.02f, 0.02f, 0.02f);
 	wirefence->Roughness = 0.25f;
 
 	auto treeSprites = std::make_unique<Material>();
 	treeSprites->Name = "treeSprites";
-	treeSprites->MatCBIndex = 3;
-	treeSprites->DiffuseSrvHeapIndex = 3;
+	treeSprites->MatCBIndex = 6;
+	treeSprites->DiffuseSrvHeapIndex = 6;
 	treeSprites->DiffuseAlbedo = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	treeSprites->FresnelR0 = XMFLOAT3(0.01f, 0.01f, 0.01f);
 	treeSprites->Roughness = 0.125f;
 
 	auto woodCrate = std::make_unique<Material>();
 	woodCrate->Name = "woodCrate";
-	woodCrate->MatCBIndex = 4;
-	woodCrate->DiffuseSrvHeapIndex = 4;
+	woodCrate->MatCBIndex = 1;
+	woodCrate->DiffuseSrvHeapIndex = 1;
 	woodCrate->DiffuseAlbedo = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	woodCrate->FresnelR0 = XMFLOAT3(0.05f, 0.05f, 0.05f);
 	woodCrate->Roughness = 0.2f;
@@ -1228,8 +1279,8 @@ void TreeBillboardsApp::BuildMaterials()
 	//Bricks
 	auto bricks = std::make_unique<Material>();
 	bricks->Name = "bricks";
-	bricks->MatCBIndex = 5;
-	bricks->DiffuseSrvHeapIndex = 5;
+	bricks->MatCBIndex = 3;
+	bricks->DiffuseSrvHeapIndex = 3;
 	bricks->DiffuseAlbedo = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	bricks->FresnelR0 = XMFLOAT3(0.05f, 0.05f, 0.05f);
 	bricks->Roughness = 0.2f;
@@ -1237,8 +1288,8 @@ void TreeBillboardsApp::BuildMaterials()
 	//Ice
 	auto ice = std::make_unique<Material>();
 	ice->Name = "ice";
-	ice->MatCBIndex = 6;
-	ice->DiffuseSrvHeapIndex = 6;
+	ice->MatCBIndex = 2;
+	ice->DiffuseSrvHeapIndex = 2;
 	ice->DiffuseAlbedo = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	ice->FresnelR0 = XMFLOAT3(0.05f, 0.05f, 0.05f);
 	ice->Roughness = 0.2f;
@@ -1259,15 +1310,20 @@ void TreeBillboardsApp::BuildRenderItems(string name, string materials, float sX
 	auto boxRitem = std::make_unique<RenderItem>();
 	XMStoreFloat4x4(&boxRitem->World, XMMatrixScaling(sX, sY, sZ) * XMMatrixTranslation(tX, tY, tZ));
 	boxRitem->ObjCBIndex = static_cast<UINT>(mAllRitems.size());
-	boxRitem->Mat = mMaterials["wirefence"].get();
-	boxRitem->Geo = mGeometries["boxGeo"].get();
+	boxRitem->Mat = mMaterials[materials].get();
+	boxRitem->Geo = mGeometries[name].get();
 	boxRitem->PrimitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 	boxRitem->IndexCount = boxRitem->Geo->DrawArgs["box"].IndexCount;
 	boxRitem->StartIndexLocation = boxRitem->Geo->DrawArgs["box"].StartIndexLocation;
 	boxRitem->BaseVertexLocation = boxRitem->Geo->DrawArgs["box"].BaseVertexLocation;
-
-	mRitemLayer[(int)RenderLayer::AlphaTested].push_back(boxRitem.get());
 	mAllRitems.push_back(std::move(boxRitem));
+
+	//mRitemLayer[(int)RenderLayer::AlphaTested].push_back(boxRitem.get());
+
+	mOpaqueRitems.clear();
+	for (auto& e : mAllRitems)
+		mOpaqueRitems.push_back(e.get());
+
 }
 
 void TreeBillboardsApp::BuildRenderWorld()
