@@ -241,6 +241,7 @@ bool TreeBillboardsApp::Initialize()
 	BuildMaterials();
 	//Decoration
 	BuildRenderItems("Diamond", "ice", 2.0f, 2.0f, 2.0f, 0.0f, 10.0f, 0.0f);
+	BuildRenderItems("Diamond", "ice", 2.0f, 2.0f, 2.0f, 0.0f, 10.0f, 0.0f);
 
 	//Chains for bridge
 	BuildRenderItems("Wedge", "woodCrate", 6.0f, 5.0f, 0.5f, 11.0f, 0.5f, -3.0f);
@@ -1331,7 +1332,8 @@ void TreeBillboardsApp::BuildRenderWorld()
 {
 	auto wavesRitem = std::make_unique<RenderItem>();
 	wavesRitem->World = MathHelper::Identity4x4();
-	XMStoreFloat4x4(&wavesRitem->World, XMMatrixScaling(5.0f, 5.0f, 1.0f)*XMMatrixTranslation(0.0f, -5.0f, 0.0f));
+	XMStoreFloat4x4(&wavesRitem->World, XMMatrixScaling(1.0f, 1.0f, 1.0f) * XMMatrixTranslation(0.0f, -3.0f, 0.0f));
+	XMStoreFloat4x4(&wavesRitem->TexTransform, XMMatrixScaling(5.0f, 5.0f, 1.0f));
 	wavesRitem->ObjCBIndex = 0;
 	wavesRitem->Mat = mMaterials["water"].get();
 	wavesRitem->Geo = mGeometries["waterGeo"].get();
